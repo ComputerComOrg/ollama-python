@@ -1037,22 +1037,20 @@ def _parse_host(host: Optional[str]) -> str:
     elif scheme == 'https':
         port = 443
 
-        split = urllib.parse.urlsplit(
-            '://'.join([scheme, hostport]), allow_fragments=True)
-        host = split.hostname or '127.0.0.1'
-        port = split.port or port
+    split = urllib.parse.urlsplit(
+        '://'.join([scheme, hostport]), allow_fragments=True)
+    host = split.hostname or '127.0.0.1'
+    port = split.port or port
 
-        # Fix missing square brackets for IPv6 from urlsplit
-        try:
-            if isinstance(ipaddress.ip_address(host), ipaddress.IPv6Address):
-                host = f'[{host}]'
-        except ValueError:
-            ...
+    # Fix missing square brackets for IPv6 from urlsplit
+    try:
+        if isinstance(ipaddress.ip_address(host), ipaddress.IPv6Address):
+            host = f'[{host}]'
+    except ValueError:
+        ...
 
-        parsed_url = f'{scheme}://{host}:{port}'
-        if split.username and split.password:
-            parsed_url = f'{
-                scheme}://{split.username}:{split.password}@{host}:{port}'
+    parsed_url = f'{scheme}://{host}:{port}'
+    if split.username and split.password:
+        parsed_url = f"{scheme}://{split.username}:{split.password}@{host}:{port}"  # noqa
 
-        print(parsed_url)
-        return parsed_url
+    return parsed_url
