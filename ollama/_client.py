@@ -51,8 +51,7 @@ class BaseClient:
         headers = kwargs.pop('headers', {})
         headers['Content-Type'] = 'application/json'
         headers['Accept'] = 'application/json'
-        headers['User-Agent'] = f'ollama-python/{__version__} ({platform.machine()} {
-            platform.system().lower()}) Python/{platform.python_version()}'
+        headers['User-Agent'] = f'ollama-python/{__version__} ({platform.machine()} {platform.system().lower()}) Python/{platform.python_version()}'  # noqa
 
         self._client = client(
             base_url=_parse_host(host or os.getenv('OLLAMA_HOST')),
